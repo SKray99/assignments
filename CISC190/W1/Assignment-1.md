@@ -135,3 +135,85 @@ public class StudentAverage {
 
 // Fixed by adding a semicolon and parentheses to the addition of both scores.
 ```
+#
+#
+#
+# This is my W1-4/4 code
+```java
+import java.util.Scanner;
+
+public class TripCostAnalyzer {
+
+    public static void main(String[] args) {
+// Input
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Enter trip distance in miles:");
+        double distance = input.nextDouble();
+
+        System.out.println("Enter vehicle miles per gallon:");
+        double milesPerGallon = input.nextDouble();
+
+        System.out.println("Enter fuel price per gallon:");
+        double pricePerGallon = input.nextDouble();
+
+        System.out.println("Enter average driving speed:");
+        double averageSpeed = input.nextDouble();
+
+        System.out.println("Enter number of travelers:");
+        int numberOfTravelers = input.nextInt();
+
+        System.out.println("Enter additional costs:");
+        double additionalCost = input.nextDouble();
+
+        // Remainder Operator Challenge
+        System.out.println("Enter trip in minutes:");
+        double totalMinutes = input.nextDouble();
+// Process
+        final int MINUTES_PER_HOUR = 60;
+        double gallonsNeeded = distance / milesPerGallon;
+        double fuelCost = gallonsNeeded * pricePerGallon;
+        double travelHours = distance / averageSpeed;
+        int wholeHours = (int) travelHours;
+        double fractionalHour = travelHours - wholeHours;
+        double costPerPerson = fuelCost / numberOfTravelers;
+        int remainingMinutes = (int) fractionalHour * MINUTES_PER_HOUR;
+        double totalTripCost = fuelCost + additionalCost;
+        double costPerTraveler = totalTripCost / numberOfTravelers;
+        // Remainder Operator Challenge
+        int hours = (int) totalMinutes / 60;
+        int minutes = (int) totalMinutes % 60;
+
+// Output
+      System.out.println("Trip analyzed!");
+      System.out.println("Gallons Needed: " + gallonsNeeded);
+      System.out.println("Fuel Cost: " + fuelCost);
+      System.out.println("Travel Time: " + travelHours + " hours");
+      System.out.println("Estimated Driving Time: " + (int) travelHours + " hours and " + remainingMinutes + " minutes");
+      System.out.println("Cost of Fuel Per Person: " + costPerPerson);
+      System.out.println("Total Trip Cost Per Person: " + costPerTraveler);
+
+      // Remainder Operator Challenge
+      System.out.println("Remainder Operator Challenge: " + hours + " hours and " + minutes + " minutes");
+
+      // I had to look up the line of code that allowed input values for the beginning (input.nextDouble()).
+        // Other than that, I figured the rest out on my own. :)
+
+
+
+
+    }
+}
+```
+#
+#
+# Part 12:
+### 1. The result loses a fractional portion because it divides an int by an int, which drops the remainder.
+### 2. You correct the expression by changing an int to a double.
+### 3. double travelTime = (double) distance / speed;
+#
+#
+#
+#
+#
+# No more entries this week
