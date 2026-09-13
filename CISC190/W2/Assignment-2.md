@@ -1,4 +1,4 @@
-# This is my W2 assignment 
+# This is my W2-3-1/2 code
 
 ```java
 // Part 1
@@ -92,3 +92,27 @@ public class CourseRegistrationAdvisor {
     }
 }
 ```
+# Part 11:
+### What will the program display for a score of 95? It will display "D".
+### Why is the result incorrect? Because the first line of code is ">= 60", the program will see it as true and bypass the rest of the code. It should be from highest to lowest score.
+### The code should look like this:
+```java
+double score = 95;
+
+if (score >= 90) {
+    System.out.println("A");
+}
+else if (score >= 80) {
+    System.out.println("B");
+}
+else if (score >= 70) {
+    System.out.println("C");
+}
+else if (score >= 60) {
+    System.out.println("D");
+}
+```
+# Part 12:
+### Will the message be displayed? Yes, the message will be displayed, but not as intended.
+### What is wrong with the "if" statement? It has a semicolon, which acts as a period and terminates it before it can even affect the next line of code.
+### Why can this mistake be difficult to detect? The code works but not as intended. We won't see any errors, and the code will run through, which makes it hard to detect.
