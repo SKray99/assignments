@@ -105,5 +105,234 @@ public static int larger(int a, int b) {
     return b;
 }
 ```
+#
+#
+#
+#
+#
+# This is my W4>2/2 code
+```java
+import java.util.Scanner;
+
+public class NumericToolkit {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int choice;
+
+        do {
+            displayMenu();
+            choice = readChoice(input);
+
+            switch (choice) {
+                case 1:
+                    handleGcd(input);
+                    break;
+                case 2:
+                    handlePrime(input);
+                    break;
+                case 3:
+                    handleHexConversion(input);
+                    break;
+                case 4:
+                    handleMaximum(input);
+                    break;
+                case 5:
+                    handleRandomCharacters();
+                    break;
+                default:
+                    System.out.println("Thanks for stopping by! -Sage K.");
+            }
+            System.out.println();
+        } while (choice != 0);
+
+        input.close();
+    }
+
+    public static void displayMenu() {
+        System.out.println("1. Greatest Common Divisor");
+        System.out.println("2. Prime Test");
+        System.out.println("3. Hexadecimal to Decimal");
+        System.out.println("4. Maximum Value");
+        System.out.println("5. Generate Random Characters");
+        System.out.println("0. Exit");
+    }
+
+    public static int readChoice(Scanner input) {
+        System.out.print("Enter your choice: ");
+        return input.nextInt();
+    }
+
+    public static void handleGcd(Scanner input) {
+        System.out.print("Enter first number: ");
+        int first = input.nextInt();
+        System.out.print("Enter second number: ");
+        int second = input.nextInt();
+
+        int result = gcd(first,second);
+        System.out.println("The GCD is: " + result);
+    }
+
+    public static void handlePrime(Scanner input) {
+        System.out.print("Enter an integer to test for primality: ");
+        int number = input.nextInt();
+
+        if (isPrime(number)) {
+            System.out.println(number + " is a prime number.");
+        } else {
+            System.out.println(number + " is not a prime number.");
+        }
+    }
+
+    public static void handleHexConversion(Scanner input) {
+        System.out.print("Enter a hexadecimal string: ");
+        String hex = input.next();
+
+        int result = hexToDecimal(hex);
+        System.out.println("The decimal value of given hex is " + result);
+    }
+
+    public static void handleMaximum(Scanner input) {
+        System.out.println("Choose maximum comparison type:");
+        System.out.println("1. Two integers");
+        System.out.println("2. Two doubles");
+        System.out.println("3. Three integers");
+        System.out.print("Your choice: ");
+        int type = input.nextInt();
+
+        if (type == 1) {
+            System.out.print("Enter first integer: ");
+            int a = input.nextInt();
+            System.out.print("Enter second integer: ");
+            int b = input.nextInt();
+            System.out.println("Maximum: " + max(a, b));
+        } else if (type == 2) {
+            System.out.print("Enter first double: ");
+            double a = input.nextDouble();
+            System.out.print("Enter second double: ");
+            double b = input.nextDouble();
+            System.out.println("Maximum: " + max(a, b));
+        } else if (type == 3) {
+            System.out.print("Enter first integer: ");
+            int a = input.nextInt();
+            System.out.print("Enter second integer: ");
+            int b = input.nextInt();
+            System.out.print("Enter third integer: ");
+            int c = input.nextInt();
+            System.out.println("Maximum: " + max(a, b, c));
+        } else {
+            System.out.println("Invalid maximum type choice.");
+        }
+    }
+
+    public static void handleRandomCharacters() {
+        System.out.println("Random Lowercase Letter: " + randomLowercaseLetter());
+        System.out.println("Random Uppercase Letter: " + randomUppercaseLetter());
+        System.out.println("Random Digit: "            + randomDigit());
+    }
+
+    public static int gcd(int first, int second) {
+        while (second != 0) {
+            int temp = second;
+            second = first % second;
+            first = temp;
+        }
+        return first;
+    }
+    public static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+public static int hexDigitToDecimal(char digit) {
+    char upperDigit = Character.toUpperCase(digit);
+
+    if (upperDigit >= '0' && upperDigit <= '9') {
+        return upperDigit - '0';
+    } else if (upperDigit >= 'A' && upperDigit <= 'F') {
+        return 10 + (upperDigit - 'A');
+    }
+    return -1;
+}
+public static int hexToDecimal(String hex) {
+    int decimalValue = 0;
+    for (int i = 0; i < hex.length(); i++) {
+        char digit = hex.charAt(i);
+        int digitValue = hexDigitToDecimal(digit);
+        decimalValue = decimalValue * 16 + digitValue;
+    }
+    return decimalValue;
+}
+public static int max(int a, int b) {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+public static double max(double a, double b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+}
+public static int max(int a, int b, int c) {
+    return max(max(a, b), c);
+}
+
+    public static char randomCharacter(char first, char last) {
+        return (char) (first + Math.random() * (last - first + 1));
+    }
+
+    public static char randomLowercaseLetter() {
+        return randomCharacter('a', 'z');
+    }
+
+    public static char randomUppercaseLetter() {
+        return randomCharacter('A', 'Z');
+    }
+
+    public static char randomDigit() {
+        return randomCharacter('0', '9');
+    }
+}
+```
+# Part 7 (Ambiguous Invocation Investigation):
+### 1. Why can this be called ambiguous? Both fives are integers, and Java can convert them into doubles. It doesn't know whether to match (int, double) or (double, int), so it throws an error.
+### 2. How could you modify the arguments to make the intended overload clear? Add a decimal point to specify which one of the numbers is a double.
+### 3. How could you redesign the overloads to reduce ambiguity? Just create a method that takes two doubles instead, as shown below:
+```java
+public static double combine(double a, double b) {
+    return a + b;
+}
+```
+# Part 8 (Scope Challenge):
+### 1. Why does the final statement fail? The "result" is inside the "if" section. Since it is there, the print command at the end can't find it because it's outside the curly braces.
+### 2. Where does the scope of the result begin and end? It begins inside of the "if" section where it says "int result = value * 2" and it ends at the closing curly brace of the "if" section.
+### 3. Below is the corrected code:
+```java
+public static void scopeDemo() {
+    int value = 10;
+    int result = 0;
+
+    if (value > 0) {
+        result = value * 2;
+    }
+
+    System.out.println(result);
+}
+```
+# Part 12 (Method Abstraction Review):
+### gcd(...): The caller needs to know the code needs two integers, and it'll return the greatest common factor. The hidden details are the math used to find the answer. 
+### isPrime(...): The caller needs to know the code needs an integer and it returns true or false. The hidden detail is that the code stops at Math.sqrt.
+### hexToDecimal(...): The caller needs to know the code needs a hex string and it returns a decimal number. The hidden detail is that the hexToDecimal method is deciphering the hexadecimal inputs, and it does base-16 style math.
+### max(...): The caller needs to know that the code accepts numbers and it'll return the largest of them. The hidden detail is that the three-argument version also uses the two-argument version.
 
 
