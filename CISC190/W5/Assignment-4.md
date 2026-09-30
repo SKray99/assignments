@@ -145,3 +145,6 @@ public class AssessmentAnalyzer {
     }
 }
 ```
+## Part 7: Make an Independent Copy
+### Explain why changing second[0] also changes scores[0]:
+#### Writing double[] second = scores doesn't make a new array; it just creates a second name for the same list in memory. Because both variables point to the same numbers, changing an item using second instantly changes what scores sees.
