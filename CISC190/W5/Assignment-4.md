@@ -148,3 +148,193 @@ public class AssessmentAnalyzer {
 ## Part 7: Make an Independent Copy
 ### Explain why changing second[0] also changes scores[0]:
 #### Writing double[] second = scores doesn't make a new array; it just creates a second name for the same list in memory. Because both variables point to the same numbers, changing an item using second instantly changes what scores sees.
+#
+#
+#
+#
+#
+# This is my Week 5-6>2/4 code
+```java
+import java.util.Random;
+import java.util.Scanner;
+
+public class ArrayAlgorithmToolkit {
+
+    public static int[] getRandomData(int size, int min, int max) {
+        int[] numbers = new int[size];
+        Random rand = new Random();
+
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] = rand.nextInt((max - min) + 1) + min;
+        }
+        return numbers;
+    }
+
+    public static void printArray(int[] values) {
+        System.out.print("[ ");
+        for (int index = 0; index < values.length; index++) {
+            System.out.print(values[index]);
+            if (index < values.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+
+    public static int[] reverse(int[] values) {
+        int[] result = new int[values.length];
+        int targetIndex = 0;
+        for (int srcIndex = values.length - 1; srcIndex >= 0; srcIndex--) {
+            result[targetIndex] = values[srcIndex];
+            targetIndex++;
+        }
+        return result;
+    }
+    // This sorts the array in-place, so it will change the original dataset
+    public static void selectionSort(int[] values) {
+        for (int startIndex = 0; startIndex < values.length - 1; startIndex++) {
+            int smallestIndex = startIndex;
+            for (int scanIndex = startIndex + 1; scanIndex < values.length; scanIndex++) {
+                if (values[scanIndex] < values[smallestIndex]) {
+                    smallestIndex = scanIndex;
+                }
+            }
+
+            int temp = values[smallestIndex];
+            values[smallestIndex] = values[startIndex];
+            values[startIndex] = temp;
+        }
+    }
+
+    public static int linearSearch(int[] values, int key) {
+        for (int index = 0; index < values.length; index++) {
+            if (values[index] == key) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public static int binarySearch(int[] values, int key) {
+        int start = 0;
+        int end = values.length - 1;
+
+        while (start <= end) {
+            int middle = (start + end) / 2;
+
+            if (values[middle] == key) {
+                return middle;
+            } else if (values[middle] < key) {
+                start = middle + 1;
+            } else {
+                end = middle - 1;
+            }
+        }
+        return -1;
+    }
+    // This shuffles the array in-place, so it will mix up the original dataset
+    public static void shuffle(int[] values) {
+        Random rand = new Random();
+        for (int currentIndex = values.length - 1; currentIndex > 0; currentIndex--) {
+            int randomIndex = rand.nextInt(currentIndex + 1);
+
+            int temp = values[currentIndex];
+            values[currentIndex] = values[randomIndex];
+            values[randomIndex] = temp;
+        }
+    }
+
+    public static void main(String[] args) {
+        int size = 25;
+
+        if (args.length > 0) {
+            size = Integer.parseInt(args[0]);
+        }
+
+        int[] dataset = getRandomData(size, 10, 99);
+        Scanner input = new Scanner(System.in);
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\n 1. Display data");
+            System.out.println(" 2. Reverse data");
+            System.out.println(" 3. Sort using selection sort");
+            System.out.println(" 4. Search using linear search");
+            System.out.println(" 5. Search using binary search");
+            System.out.println(" 6. Shuffle data");
+            System.out.println(" 7. Regenerate data");
+            System.out.println(" 0. Exit");
+            System.out.print("Enter choice: ");
+
+            choice = input.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Array: ");
+                printArray(dataset);
+
+            } else if (choice == 2) {
+                int[] rev = reverse(dataset);
+                System.out.print("Reversed Copy: ");
+                printArray(rev);
+
+            } else if (choice == 3) {
+                int[] copy = new int[dataset.length];
+                for (int i = 0; i < dataset.length; i++) {
+                    copy[i] = dataset[i];
+                }
+                java.util.Arrays.sort(copy);
+                selectionSort(dataset);
+                System.out.print("Sorted: ");
+                printArray(dataset);
+
+                System.out.print("\nChecking if it matches with Java utility: ");
+                if (java.util.Arrays.equals(dataset, copy)) {
+                    System.out.println("matched");
+                } else {
+                    System.out.println("Differences due to duplicate numbers handling)");
+                }
+
+            } else if (choice == 4) {
+                System.out.print("Enter key: ");
+                int searchKey = input.nextInt();
+                int idx = linearSearch(dataset, searchKey);
+                int localLinearCount = (idx == -1) ? dataset.length : (idx + 1);
+                System.out.println("Found at index: " + idx + " (Comparisons: " + localLinearCount + ")");
+
+            } else if (choice == 5) {
+                System.out.print("Enter key: ");
+                int searchKey = input.nextInt();
+                int searchedNumber = binarySearch(dataset, searchKey);
+                int localBinaryCount = 0;
+                int remainingElements = dataset.length;
+                while (remainingElements > 0) {
+                    localBinaryCount++;
+                    remainingElements = remainingElements / 2;
+                }
+
+                System.out.println("Found at index: " + searchedNumber + " (Comparisons: " + localBinaryCount + ")");
+
+                int officialIndex = java.util.Arrays.binarySearch(dataset, searchKey);
+                System.out.println("Part 7 Result: " + officialIndex );
+
+            } else if (choice == 6) {
+                shuffle(dataset);
+                System.out.print("Shuffled: ");
+                printArray(dataset);
+
+            } else if (choice == 7) {
+                dataset = getRandomData(size, 10, 99);
+                System.out.print("New Data: ");
+                printArray(dataset);
+
+            } else if (choice == 0) {
+                System.out.println("Thank you for running the program! - Sage");
+
+            } else {
+                System.out.println("Invalid choice. Try again.");
+            }
+        }
+        input.close();
+    }
+}
+```
