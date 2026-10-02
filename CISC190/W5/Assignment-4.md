@@ -244,6 +244,15 @@ public class ArrayAlgorithmToolkit {
         }
     }
 
+    // This swaps the first two items in-place, changing the original dataset
+    public static void swapFirstTwo(int[] values) {
+        if (values.length >= 2) {
+            int temp = values[0];
+            values[0] = values[1];
+            values[1] = temp;
+        }
+    }
+
     public static void main(String[] args) {
         int size = 25;
 
@@ -252,6 +261,17 @@ public class ArrayAlgorithmToolkit {
         }
 
         int[] dataset = getRandomData(size, 10, 99);
+        System.out.println("--- Part 9: Array Reference Experiment ---");
+        System.out.print("Before swapFirstTwo: ");
+        printArray(dataset);
+
+        swapFirstTwo(dataset);
+
+        System.out.print("After swapFirstTwo:  ");
+        printArray(dataset);
+        System.out.println("");
+        System.out.println("*** I didn't know how you'd want to see Part 9 while adhering to Part 11, so I added it above - Sage ***");
+
         Scanner input = new Scanner(System.in);
         int choice = -1;
 
