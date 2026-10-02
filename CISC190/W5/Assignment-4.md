@@ -190,6 +190,7 @@ public class ArrayAlgorithmToolkit {
         }
         return result;
     }
+
     // This sorts the array in-place, so it will change the original dataset
     public static void selectionSort(int[] values) {
         for (int startIndex = 0; startIndex < values.length - 1; startIndex++) {
@@ -232,6 +233,7 @@ public class ArrayAlgorithmToolkit {
         }
         return -1;
     }
+
     // This shuffles the array in-place, so it will mix up the original dataset
     public static void shuffle(int[] values) {
         Random rand = new Random();
@@ -250,6 +252,54 @@ public class ArrayAlgorithmToolkit {
             int temp = values[0];
             values[0] = values[1];
             values[1] = temp;
+        }
+    }
+
+    public static double average(int... values) {
+        if (values.length == 0) {
+            return 0.0;
+        }
+        double sum = 0;
+        for (int index = 0; index < values.length; index++) {
+            sum += values[index];
+        }
+        return sum / values.length;
+    }
+
+    public static int countOccurrences(int[] values, int key) {
+        int count = 0;
+        for (int index = 0; index < values.length; index++) {
+            if (values[index] == key) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void reportDuplicates(int[] values) {
+        int[] sortedCopy = new int[values.length];
+        for (int index = 0; index < values.length; index++) {
+            sortedCopy[index] = values[index];
+        }
+
+        selectionSort(sortedCopy);
+        System.out.println("--- Part 12: Duplicate Analysis Report ---");
+
+        boolean foundDuplicate = false;
+        int checkIndex = 0;
+        while (checkIndex < sortedCopy.length) {
+            int currentVal = sortedCopy[checkIndex];
+            int frequency = countOccurrences(values, currentVal);
+
+            if (frequency > 1) {
+                System.out.println("Number " + currentVal + " appears " + frequency + " times.");
+                foundDuplicate = true;
+            }
+            checkIndex = checkIndex + frequency;
+        }
+
+        if (!foundDuplicate) {
+            System.out.println("No duplicate values found in the dataset.");
         }
     }
 
@@ -291,6 +341,9 @@ public class ArrayAlgorithmToolkit {
             if (choice == 1) {
                 System.out.print("Array: ");
                 printArray(dataset);
+                System.out.println("--- Part 10: Varargs Calculation ---");
+                double overallAvg = average(dataset);
+                System.out.println("Average of the entire dataset: " + overallAvg);
 
             } else if (choice == 2) {
                 int[] rev = reverse(dataset);
@@ -298,6 +351,8 @@ public class ArrayAlgorithmToolkit {
                 printArray(rev);
 
             } else if (choice == 3) {
+                reportDuplicates(dataset);
+                System.out.println("");
                 int[] copy = new int[dataset.length];
                 for (int i = 0; i < dataset.length; i++) {
                     copy[i] = dataset[i];
@@ -335,7 +390,7 @@ public class ArrayAlgorithmToolkit {
                 System.out.println("Found at index: " + searchedNumber + " (Comparisons: " + localBinaryCount + ")");
 
                 int officialIndex = java.util.Arrays.binarySearch(dataset, searchKey);
-                System.out.println("Part 7 Result: " + officialIndex );
+                System.out.println("Part 7 Verification: " + officialIndex );
 
             } else if (choice == 6) {
                 shuffle(dataset);
@@ -356,5 +411,6 @@ public class ArrayAlgorithmToolkit {
         }
         input.close();
     }
-}
+}         
 ```
+### Note: There was nothing in our lecture material regarding duplicates. I used a YouTube video by SDET-QA and AI to teach me how to find duplicates in an array to complete Part 12. 
