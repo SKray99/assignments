@@ -414,3 +414,208 @@ public class ArrayAlgorithmToolkit {
 }         
 ```
 ### Note: There was nothing in our lecture material regarding duplicates. I used a YouTube video by SDET-QA and AI to teach me how to find duplicates in an array to complete Part 12. 
+#
+#
+#
+#
+#
+# This is my Week 5-6>3/4 code
+```java
+import java.util.Scanner;
+
+public class StoreSalesAnalyzer {
+
+    public static void main(String[] args) {
+
+        double[][] sales = new double[4][7];
+        Scanner scanner = new Scanner(System.in);
+
+        for (int store = 0; store < sales.length; store++) {
+            for (int day = 0; day < sales[store].length; day++) {
+                double input = -1;
+                while (input < 0) {
+                    System.out.print("Enter sales for store " + (store + 1) + ", day " + (day + 1) + ": ");
+                    input = scanner.nextDouble();
+                    if (input < 0) {
+                        System.out.println("Sales cannot be negative, try again.");
+                    }
+                }
+                sales[store][day] = input;
+            }
+        }
+        System.out.println();
+
+        System.out.println("---Sales Matrix---");
+        printSales(sales);
+        System.out.println();
+
+        System.out.println("---Sales Report---");
+        System.out.println("Overall Total Weekly Sales: $" + totalSales(sales));
+        System.out.println("Average Sales Amount Per Entry: $" + averageSales(sales));
+
+        System.out.println("\n--- Breakdowns by Store ---");
+        for (int store = 0; store < sales.length; store++) {
+            System.out.println("Total Sales for Store " + (store + 1) + ": $" + rowTotal(sales, store));
+        }
+
+        System.out.println("\n--- Breakdowns by Day ---");
+        int maxDays = getMaxColumns(sales);
+        for (int day = 0; day < maxDays; day++) {
+            System.out.println("Total Sales for Day " + (day + 1) + ": $" + columnTotal(sales, day));
+        }
+
+        int bestStoreIdx = bestStore(sales);
+        System.out.println("\nBest-Performing Location: Store " + (bestStoreIdx + 1));
+
+        double maxVal = findMaximum(sales);
+        int[] maxPos = findMaximumPosition(sales);
+        System.out.println("Largest Recorded Sale: $" + maxVal +
+                " (Located at Store " + (maxPos[0] + 1) + ", Day " + (maxPos[1] + 1) + ")");
+        System.out.println();
+
+        System.out.println("---Ragged Array Results---");
+        double[][] irregularSales = {
+                {120.0, 145.0, 160.0},
+                {90.0, 105.0},
+                {200.0, 210.0, 220.0, 230.0},
+                {75.0}
+        };
+
+        System.out.println("---Irregular Sales Matrix---");
+        printSales(irregularSales);
+        System.out.println();
+
+        System.out.println("Irregular Array Total Sales: $" + totalSales(irregularSales));
+        System.out.println("Irregular Array Average Sales: $" + averageSales(irregularSales));
+
+        System.out.println("\n--- Irregular Breakdowns by Day ---");
+        int maxIrregularDays = getMaxColumns(irregularSales);
+        for (int day = 0; day < maxIrregularDays; day++) {
+            System.out.println("Total Sales for Day " + (day + 1) + ": $" + columnTotal(irregularSales, day));
+        }
+
+        scanner.close();
+    }
+
+    public static void printSales(double[][] sales) {
+        for (int store = 0; store < sales.length; store++) {
+            for (int day = 0; day < sales[store].length; day++) {
+                System.out.print(sales[store][day] + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    public static double totalSales(double[][] sales) {
+        double total = 0.0;
+        for (int store = 0; store < sales.length; store++) {
+            for (int day = 0; day < sales[store].length; day++) {
+                total += sales[store][day];
+            }
+        }
+        return total;
+    }
+
+    public static double averageSales(double[][] sales) {
+        double total = totalSales(sales);
+        int entryCount = 0;
+        for (int store = 0; store < sales.length; store++) {
+            entryCount += sales[store].length;
+        }
+        return entryCount == 0 ? 0.0 : total / entryCount;
+    }
+
+    public static double rowTotal(double[][] sales, int storeIndex) {
+        double total = 0.0;
+        for (int day = 0; day < sales[storeIndex].length; day++) {
+            total += sales[storeIndex][day];
+        }
+        return total;
+    }
+
+    public static double columnTotal(double[][] sales, int dayIndex) {
+        double total = 0.0;
+        for (int store = 0; store < sales.length; store++) {
+            if (dayIndex < sales[store].length) {
+                total += sales[store][dayIndex];
+            }
+        }
+        return total;
+    }
+
+    public static int getMaxColumns(double[][] sales) {
+        int maxCols = 0;
+        for (int store = 0; store < sales.length; store++) {
+            if (sales[store].length > maxCols) {
+                maxCols = sales[store].length;
+            }
+        }
+        return maxCols;
+    }
+
+    public static int bestStore(double[][] sales) {
+        int bestStoreIndex = 0;
+        double maxTotal = rowTotal(sales, 0);
+
+        for (int store = 1; store < sales.length; store++) {
+            double currentTotal = rowTotal(sales, store);
+            if (currentTotal > maxTotal) {
+                maxTotal = currentTotal;
+                bestStoreIndex = store;
+            }
+        }
+        return bestStoreIndex;
+    }
+
+    public static double findMaximum(double[][] sales) {
+        double max = sales[0][0];
+        for (int store = 0; store < sales.length; store++) {
+            for (int day = 0; day < sales[store].length; day++) {
+                if (sales[store][day] > max) {
+                    max = sales[store][day];
+                }
+            }
+        }
+        return max;
+    }
+
+    public static int[] findMaximumPosition(double[][] sales) {
+        double max = sales[0][0];
+        int maxStore = 0;
+        int maxDay = 0;
+
+        for (int store = 0; store < sales.length; store++) {
+            for (int day = 0; day < sales[store].length; day++) {
+                if (sales[store][day] > max) {
+                    max = sales[store][day];
+                    maxStore = store;
+                    maxDay = day;
+                }
+            }
+        }
+
+        return new int[]{maxStore, maxDay};
+    }
+}
+```
+# Part 9:
+## matrix[row].length is supposed to count how many items are in each individual row. If you don't use it, the code will fail because the program won't read uneven or ragged rows. It could crash or entirely miss data it was meant to capture.
+#
+# Part 10 (Debugging):
+```java
+for (int row = 0; row < sales.length; row++) {
+    for (int column = 0; column < sales.length; column++) {
+        System.out.println(sales[row][column]);
+    }
+}
+```
+## 1. What assumption does the inner loop make? The inner loop assumes the table is a perfect square because it uses sales.length rather than sales[row].length.
+## 2. Why could this fail for a non-square matrix? It could crash or miss data, as explained in my part 9 question. 
+## 3. Corrected loop condition below.
+```java
+for (int row = 0; row < sales.length; row++) {
+    for (int column = 0; column < sales[row].length; column++) {
+        System.out.println(sales[row][column]);
+    }
+}
+```
