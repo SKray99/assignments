@@ -145,9 +145,9 @@ public class AssessmentAnalyzer {
     }
 }
 ```
-## Part 7: Make an Independent Copy
-### Explain why changing second[0] also changes scores[0]:
-#### Writing double[] second = scores doesn't make a new array; it just creates a second name for the same list in memory. Because both variables point to the same numbers, changing an item using second instantly changes what scores sees.
+# Part 7: Make an Independent Copy
+## Explain why changing second[0] also changes scores[0]:
+## Writing double[] second = scores doesn't make a new array; it just creates a second name for the same list in memory. Because both variables point to the same numbers, changing an item using second instantly changes what scores sees.
 #
 #
 #
@@ -413,7 +413,7 @@ public class ArrayAlgorithmToolkit {
     }
 }         
 ```
-### Note: There was nothing in our lecture material regarding duplicates. I used a YouTube video by SDET-QA and AI to teach me how to find duplicates in an array to complete Part 12. 
+## Note: There was nothing in our lecture material regarding duplicates. I used a YouTube video by SDET-QA and AI to teach me how to find duplicates in an array to complete Part 12. 
 #
 #
 #
