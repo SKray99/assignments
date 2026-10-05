@@ -619,3 +619,252 @@ for (int row = 0; row < sales.length; row++) {
     }
 }
 ```
+#
+#
+#
+#
+#
+# This is my Week 5-6>4/4 code
+## Part 1 - 11:
+```java
+public class GridValidator {
+
+    public static void main(String[] args) {
+
+        int[][] baseGrid = {
+                {5, 3, 4, 6, 7, 8, 9, 1, 2},
+                {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                {1, 9, 8, 3, 4, 2, 5, 6, 7},
+                {8, 5, 9, 7, 6, 1, 4, 2, 3},
+                {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                {3, 4, 5, 2, 8, 6, 1, 7, 9}
+        };
+
+        System.out.println("Testing the grid:");
+        System.out.println("Is valid: " + isValidGrid(baseGrid));
+        System.out.println();
+
+        System.out.println("--- Mutation Testing ---");
+
+        System.out.println("Putting a 12 in the grid");
+        baseGrid[2][4] = 12;
+        isValidGrid(baseGrid);
+        baseGrid[2][4] = 4;
+        System.out.println();
+
+        System.out.println("Making a duplicate in row 5");
+        baseGrid[5][1] = baseGrid[5][0];
+        isValidGrid(baseGrid);
+        baseGrid[5][1] = 1;
+        System.out.println();
+
+        System.out.println("Making a duplicate in column 3");
+        baseGrid[1][3] = baseGrid[0][3];
+        isValidGrid(baseGrid);
+        baseGrid[1][3] = 1;
+        System.out.println();
+
+        System.out.println("Making a duplicate inside a 3x3 region");
+        baseGrid[7][1] = baseGrid[6][0];
+        isValidGrid(baseGrid);
+        baseGrid[7][1] = 8;
+    }
+
+    public static boolean valuesInRange(int[][] grid) {
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (grid[row][column] < 1 || grid[row][column] > 9) {
+                    System.out.println("Invalid value at row " + row + ", column " + column);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isRowValid(int[][] grid, int row) {
+        boolean[] seen = new boolean[10];
+        for (int column = 0; column < 9; column++) {
+            int value = grid[row][column];
+            if (seen[value] == true) {
+                System.out.println("Duplicate detected in row " + row);
+                return false;
+            }
+            seen[value] = true;
+        }
+        return true;
+    }
+
+    public static boolean areRowsValid(int[][] grid) {
+        for (int row = 0; row < 9; row++) {
+            if (isRowValid(grid, row) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isColumnValid(int[][] grid, int column) {
+        boolean[] seen = new boolean[10];
+        for (int row = 0; row < 9; row++) {
+            int value = grid[row][column];
+            if (seen[value] == true) {
+                System.out.println("Duplicate detected in column " + column);
+                return false;
+            }
+            seen[value] = true;
+        }
+        return true;
+    }
+
+    public static boolean areColumnsValid(int[][] grid) {
+        for (int column = 0; column < 9; column++) {
+            if (isColumnValid(grid, column) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isRegionValid(int[][] grid, int startRow, int startColumn) {
+        boolean[] seen = new boolean[10];
+        for (int row = startRow; row < startRow + 3; row++) {
+            for (int column = startColumn; column < startColumn + 3; column++) {
+                int value = grid[row][column];
+                if (seen[value] == true) {
+                    System.out.println("Invalid 3x3 region beginning at row " + startRow + ", column " + startColumn);
+                    return false;
+                }
+                seen[value] = true;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isValidGrid(int[][] grid) {
+        if (grid == null || grid.length != 9 || grid[0].length != 9) {
+            System.out.println("The grid size is not correct!");
+            return false;
+        }
+        if (valuesInRange(grid) == false) {
+            return false;
+        }
+        if (areRowsValid(grid) == false) {
+            return false;
+        }
+        if (areColumnsValid(grid) == false) {
+            return false;
+        }
+        for (int startRow = 0; startRow < 9; startRow += 3) {
+            for (int startColumn = 0; startColumn < 9; startColumn += 3) {
+                if (isRegionValid(grid, startRow, startColumn) == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+```
+## Part 12:
+```java
+public class ClosestPointAnalyzer {
+
+    public static void main(String[] args) {
+        double[][] points = {
+                {-1, 3},
+                {-1, -1},
+                {1, 1},
+                {2, 0.5},
+                {2, -1},
+                {3, 3},
+                {4, 2},
+                {4, -0.5}
+        };
+
+        int point1Index = 0;
+        int point2Index = 1;
+        double minDistance = distance(points[0], points[1]);
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i + 1; j < points.length; j++) {
+                double currentDistance = distance(points[i], points[j]);
+                if (currentDistance < minDistance) {
+                    minDistance = currentDistance;
+                    point1Index = i;
+                    point2Index = j;
+                }
+            }
+        }
+
+        System.out.println("Closest Pair indices: Point " + point1Index + " and Point " + point2Index);
+        System.out.println("Coordinates: (" + points[point1Index][0] + ", " + points[point1Index][1] + ") to ("
+                + points[point2Index][0] + ", " + points[point2Index][1] + ")");
+        System.out.println("Minimum Distance: " + minDistance);
+    }
+
+    public static double distance(double[] p1, double[] p2) {
+        double changeX = p1[0] - p2[0];
+        double changeY = p1[1] - p2[1];
+        double distanceResult = Math.sqrt((changeX * changeX) + (changeY * changeY));
+        return distanceResult;
+    }
+}
+```
+## Part 13 - 14:
+```java
+public class ThreeDimensionalScoreAnalyzer {
+
+    public static void main(String[] args) {
+        double[][][] scores = new double[3][3][2];
+        // Student 1 Exam Scores
+        scores[0][0][0] = 85.0;
+        scores[0][0][1] = 90.0;
+        scores[0][1][0] = 78.5;
+        scores[0][1][1] = 88.0;
+        scores[0][2][0] = 92.0;
+        scores[0][2][1] = 95.0;
+        // Student 2 Exam Scores
+        scores[1][0][0] = 70.0;
+        scores[1][0][1] = 75.0;
+        scores[1][1][0] = 80.0;
+        scores[1][1][1] = 82.5;
+        scores[1][2][0] = 85.0;
+        scores[1][2][1] = 88.0;
+        // Student 3 Exam Scores
+        scores[2][0][0] = 90.0;
+        scores[2][0][1] = 92.0;
+        scores[2][1][0] = 88.0;
+        scores[2][1][1] = 91.0;
+        scores[2][2][0] = 94.0;
+        scores[2][2][1] = 96.0;
+
+        System.out.println("--- Calculating Student Totals ---");
+        for (int studentIdx = 0; studentIdx < 3; studentIdx++) {
+            double total = studentTotal(scores, studentIdx);
+            System.out.println("Total score for Student " + studentIdx + " is: " + total);
+        }
+    }
+
+    public static double studentTotal(double[][][] scores, int student) {
+        double runningTotal = 0.0;
+        for (int exam = 0; exam < scores[student].length; exam++) {
+
+            for (int component = 0; component < scores[student][exam].length; component++) {
+                runningTotal = runningTotal + scores[student][exam][component];
+
+            }
+        }
+        return runningTotal;
+    }
+}
+```
+#
+#
+#
+#
+#
+# NO MORE ENTRIES THIS ASSIGNMENT 
