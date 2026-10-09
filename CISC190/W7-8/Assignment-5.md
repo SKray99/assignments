@@ -128,7 +128,8 @@ public class Student extends Person {
 public class StudentDerivationFromPerson {
     public static void main(String[] args) {
         Student courseStudent = new Student();
-       //My solution
+
+ //My solution
         courseStudent.setName("Smith");
         courseStudent.setAge(20);
         courseStudent.setID(9999);
