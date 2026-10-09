@@ -1,59 +1,88 @@
 # Below is the non-graded code for W7-8>1/5
 ```java
 public class Car {
-    private int carYear;
+    private int modelYear;
     private int purchasePrice;
     private int currentValue;
-
-    public void setCarYear(int userYear) {
-        carYear = userYear;
+    public void setModelYear(int userYear){
+        modelYear = userYear;
     }
-
-    public int getCarYear() {
-        return carYear;
+    
+    public int getModelYear() {
+        return modelYear;
     }
-
+    
     public void setPurchasePrice(int userPrice) {
         purchasePrice = userPrice;
     }
-
+    
     public int getPurchasePrice() {
         return purchasePrice;
     }
-
+    
     public void calcCurrentValue(int currentYear) {
-        double depreciationRate = 0.15;
-        int carAge = currentYear - carYear;
-        currentValue = (int) Math.round(purchasePrice * Math.pow((1 - depreciationRate), carAge));
+        double rate = 0.15;
+        int age = currentYear - modelYear;
+        double formula = purchasePrice * Math.pow((1 - rate), age);
+        currentValue = (int) Math.round(formula);
     }
-
+    
     public void printInfo() {
-        System.out.println("Car's info:");
-        System.out.println("  Model year: " + carYear);
+        System.out.println("Car's information:");
+        System.out.println("  Model year: " + modelYear);
         System.out.println("  Purchase price: $" + purchasePrice);
         System.out.println("  Current value: $" + currentValue);
     }
 }
+
 ```
+# Below is the non-graded code for W7-8>2/5
 ```java
-import java.util.Scanner;
-import java.lang.Math;
+public class FoodItem {
+    private String name;
+    private double fat;
+    private double carbs;
+    private double protein;
+    public FoodItem() {
+        name = "Water";
+        fat = 0.0;
+        carbs = 0.0;
+        protein = 0.0;
+    }
 
-public class CarValue {
-    public static void main(String[] args) {
-        Scanner scnr = new Scanner(System.in);
+    public FoodItem(String userName, double userFatAmt, double userCarbAmt, double userProteinAmt) {
+        name = userName;
+        fat = userFatAmt;
+        carbs = userCarbAmt;
+        protein = userProteinAmt;
+    }
 
-        Car myCar = new Car();
+    public String getName() {
+        return name;
+    }
 
-        int year = scnr.nextInt();
-        int price = scnr.nextInt();
-        int currentYear = scnr.nextInt();
+    public double getFat() {
+        return fat;
+    }
 
-        myCar.setCarYear(year);
-        myCar.setPurchasePrice(price);
-        myCar.calcCurrentValue(currentYear);
+    public double getCarbs() {
+        return carbs;
+    }
 
-        myCar.printInfo();
+    public double getProtein() {
+        return protein;
+    }
+
+    public double getCalories(double numServings) {
+        double calories = ((fat * 9) + (carbs * 4) + (protein * 4)) * numServings;
+        return calories;
+    }
+
+    public void printInfo() {
+        System.out.printf("Nutritional information per serving of %s:\n", name);
+        System.out.printf("  Fat: %.2f g\n", fat);
+        System.out.printf("  Carbohydrates: %.2f g\n", carbs);
+        System.out.printf("  Protein: %.2f g\n", protein);
     }
 }
 ```
