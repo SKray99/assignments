@@ -142,3 +142,86 @@ public class StudentDerivationFromPerson {
 }
 // ===== end =====
 ```
+# Below is my code for W7-8>4/5
+```java
+public class Course {
+    private String courseNumber;
+    private String courseTitle;
+
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
+    }
+
+    public String getCourseNumber() {
+        return courseNumber;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
+    }
+
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public void PrintInfo() {
+        System.out.println("Course Information:");
+        System.out.println("   Course Number: " + courseNumber);
+        System.out.println("   Course Title: " + courseTitle);
+    }
+
+    public static void main(String[] args) {
+
+        Course myCourse = new Course();
+        myCourse.setCourseNumber("ECE287");
+        myCourse.setCourseTitle("Digital Systems Design");
+
+        OfferedCourse myOfferedCourse = new OfferedCourse();
+
+        myOfferedCourse.setCourseNumber("ECE387");
+        myOfferedCourse.setCourseTitle("Embedded Systems Design");
+
+        myOfferedCourse.setInstructorName("Mark Patterson");
+        myOfferedCourse.setLocation("Wilson Hall 231");
+        myOfferedCourse.setClassTime("WF: 2-3:30 pm");
+
+        myCourse.PrintInfo();
+
+        myOfferedCourse.PrintInfo();
+        System.out.println("   Instructor Name: " + myOfferedCourse.getInstructorName());
+        System.out.println("   Location: " + myOfferedCourse.getLocation());
+        System.out.println("   Class Time: " + myOfferedCourse.getClassTime());
+    }
+}
+
+class OfferedCourse extends Course {
+    private String instructorName;
+    private String location;
+    private String classTime;
+    
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setClassTime(String classTime) {
+        this.classTime = classTime;
+    }
+
+    public String getClassTime() {
+        return classTime;
+    }
+}
+```
+## Note: I enjoyed learning about inheritance. I understood it using a "parent-child" approach rather than a "base-derived" approach. Too many fancy words and I like to keep it simple.
