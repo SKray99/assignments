@@ -225,3 +225,74 @@ class OfferedCourse extends Course {
 }
 ```
 ## Note: I enjoyed learning about inheritance. I understood it using a "parent-child" approach rather than a "base-derived" approach. Too many fancy words and I like to keep it simple.
+#
+# Below is my code for W7-8>5/5
+```java
+public class Book {
+    private String title;
+    private String author;
+    private String publisher;
+    private String publicationDate;
+
+    public void setTitle(String userTitle) { this.title = userTitle; }
+    public void setAuthor(String userAuthor) { this.author = userAuthor; }
+    public void setPublisher(String userPublisher) { this.publisher = userPublisher; }
+    public void setPublicationDate(String userPublicationDate) { this.publicationDate = userPublicationDate; }
+
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public String getPublisher() { return publisher; }
+    public String getPublicationDate() { return publicationDate; }
+
+    public void printInfo() {
+        System.out.println("Book Information: ");
+        System.out.println("   Book Title: " + title);
+        System.out.println("   Author: " + author);
+        System.out.println("   Publisher: " + publisher);
+        System.out.println("   Publication Date: " + publicationDate);
+    }
+
+    public static void main(String[] args) {
+        Book myBook = new Book();
+        myBook.setTitle("The Hobbit");
+        myBook.setAuthor("J. R. R. Tolkien");
+        myBook.setPublisher("George Allen & Unwin");
+        myBook.setPublicationDate("21 September 1937");
+
+        myBook.printInfo();
+
+        Encyclopedia myEncyclopedia = new Encyclopedia();
+        myEncyclopedia.setTitle("The Illustrated Encyclopedia of the Universe");
+        myEncyclopedia.setAuthor("Ian Ridpath");
+        myEncyclopedia.setPublisher("Watson-Guptill");
+        myEncyclopedia.setPublicationDate("2001");
+        myEncyclopedia.setEdition("2nd");
+        myEncyclopedia.setNumPages(384);
+
+        myEncyclopedia.printInfo();
+    }
+}
+
+class Encyclopedia extends Book {
+
+    private String edition;
+    private int numPages;
+    public void setEdition(String userEdition) { this.edition = userEdition; }
+    public void setNumPages(int userNumPages) { this.numPages = userNumPages; }
+    public String getEdition() { return edition; }
+    public int getNumPages() { return numPages; }
+
+    @Override
+    public void printInfo() {
+
+        super.printInfo();
+        System.out.println("   Edition: " + edition);
+        System.out.println("   Number of Pages: " + numPages);
+    }
+}
+```
+#
+#
+#
+#
+#
