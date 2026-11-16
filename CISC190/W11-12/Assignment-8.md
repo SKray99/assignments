@@ -599,7 +599,6 @@ public class SeatReservationFrame extends JFrame implements ActionListener {
     }
 } // This correctly closes the actionPerformed method
 
-/* Updates the reservation information displayed by the table */
 public void updateTable() {
     final int seatNumCol = 0;   // Col num for seat numbers
     final int firstNameCol = 1; // Col num for first names
