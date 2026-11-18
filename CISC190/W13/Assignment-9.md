@@ -115,3 +115,9 @@ public class Main {
 }
 ```
 **Result:** I got 5 threads displayed at random in my console.
+
+## Reflection Questions:
+### 1. Two threads are looking at a number at the same time; therefore, both threads will save the number, and because of that, one count is lost.
+### 2. A race condition is when multiple threads race to change the same variable at the same time, resulting in a messed-up count.
+### 3. Synchronized allows only one thread to update the counter at a time, while the other threads are in a queue.
+### 4. No, more threads do not mean faster execution. It's like too many cooks in the kitchen.
