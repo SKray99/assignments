@@ -121,3 +121,98 @@ public class Main {
 ### 2. A race condition is when multiple threads race to change the same variable at the same time, resulting in a messed-up count.
 ### 3. Synchronized allows only one thread to update the counter at a time, while the other threads are in a queue.
 ### 4. No, more threads do not mean faster execution. It's like too many cooks in the kitchen.
+#
+#
+#
+#
+#
+# Below is my W13-16>2/2 assignment
+```java
+import java.util.concurrent.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        List<Callable<Integer>> tasks = List.of(
+                () -> { Thread.sleep(3000); return 10; },
+                () -> { Thread.sleep(1000); return 20; },
+                () -> { Thread.sleep(2000); return 30; }
+        );
+
+        int fastestResult = executor.invokeAny(tasks);
+        System.out.println("Fastest Result: " + fastestResult);
+
+        List<Future<Integer>> results = executor.invokeAll(tasks);
+
+        int sum = 0;
+        for (Future<Integer> f : results) {
+            sum += f.get();
+        }
+
+        System.out.println("Sum of all results: " + sum);
+
+        CompletionService<Integer> service =
+                new ExecutorCompletionService<>(executor);
+
+        for (Callable<Integer> task : tasks) {
+            service.submit(task);
+        }
+
+        System.out.println("Results in completion order:");
+        for (int i = 0; i < tasks.size(); i++) {
+            Future<Integer> result = service.take();
+            System.out.println(result.get());
+        }
+
+        long start = System.currentTimeMillis();
+
+        List<Future<Integer>> experimentResults = executor.invokeAll(tasks);
+        int total = 0;
+        for (Future<Integer> f : experimentResults) {
+            total += f.get();
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Time: " + (end - start));
+
+        List<Callable<String>> tasksF = List.of(
+                () -> { Thread.sleep(3000); return "Database query (3s)"; },
+                () -> { Thread.sleep(1000); return "Cache lookup (1s)"; },
+                () -> { Thread.sleep(2000); return "API call (2s)"; }
+        );
+
+        long startFast = System.currentTimeMillis();
+        String fastestTask = executor.invokeAny(tasksF);
+        long endFast = System.currentTimeMillis();
+        System.out.println("Fastest task: " + fastestTask);
+        System.out.println("Time: " + (endFast - startFast));
+
+        long startAll = System.currentTimeMillis();
+        CompletionService<String> serviceF =
+                new ExecutorCompletionService<>(executor);
+
+        for (Callable<String> task : tasksF) {
+            serviceF.submit(task);
+        }
+
+        System.out.println("Tasks in completion order:");
+        for (int i = 0; i < tasksF.size(); i++) {
+            Future<String> result = serviceF.take();
+            System.out.println(result.get());
+        }
+        long endAll = System.currentTimeMillis();
+        System.out.println("Time: " + (endAll - startAll));
+
+        executor.shutdown();
+    }
+}
+```
+
+## Reflection Questions:
+### 1. `invokeAny` only cares about the first task that finishes. Once a task finishes, it'll just grab that one answer and cancel the rest of them.
+### 2. You use `invokeAll` when you need every task to finish before moving on to the rest of the code.
+### 3. `CompletionService` puts all the results from the tasks in a queue. Once the fastest task finishes, the program has access to that information while the slower tasks that take more time to complete in the background and will be available once finished.
+### 4. No. You just end up creating more tasks for the program, and essentially slow it down since the program has to bounce between a higher number of tasks that need to be completed.
